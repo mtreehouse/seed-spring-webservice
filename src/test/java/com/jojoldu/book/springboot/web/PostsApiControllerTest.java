@@ -20,6 +20,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.io.Console;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -75,11 +76,11 @@ public class PostsApiControllerTest {
     @Test
     public void Posts_수정된다() throws Exception{
         //given
-        Posts savedPosts = postsRepository.save(Posts.builder().title("title")
+        Posts savedPosts = postsRepository.save(Posts.builder()
+                .title("title")
                 .content("content")
                 .author("author")
                 .build());
-
         Long updateId = savedPosts.getId();
         String expectedTitle = "title2";
         String expectedContent = "content2";
@@ -91,11 +92,13 @@ public class PostsApiControllerTest {
 
         String url = "http://localhost:" + port + "/api/v1/posts/" + updateId;
 
+
         HttpEntity<PostsUpdateRequestDto> requestEntity = new HttpEntity<>(requestDto);
 
         //when
         ResponseEntity<Long> responseEntity = restTemplate.exchange(url, HttpMethod.PUT, requestEntity, Long.class);
 
+        savedPosts = postsRepository.findAll().get(0);
         //then
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(responseEntity.getBody()).isGreaterThan(0L);
