@@ -36,7 +36,8 @@ dependencies {
     compile('org.springframework.session:spring-session-jdbc')
 
     compile("org.mariadb.jdbc:mariadb-java-client")
-
+    compile files( "/usr/lib/jvm/java-7-oracle/jre/lib/jfxrt.jar" )
     testCompile('org.springframework.boot:spring-boot-starter-test')
     testCompile("org.springframework.security:spring-security-test")
+
 }
