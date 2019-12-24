@@ -116,7 +116,7 @@ public class PostsApiControllerTest {
         HttpEntity<PostsUpdateRequestDto> requestEntity = new HttpEntity<>(requestDto);
 
         //when
-        mvc.perform(post(url)
+        mvc.perform(put(url)
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(new ObjectMapper().writeValueAsString(requestDto)))
                 .andExpect(status().isOk());
