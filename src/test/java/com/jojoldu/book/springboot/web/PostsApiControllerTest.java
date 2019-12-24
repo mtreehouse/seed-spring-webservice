@@ -44,12 +44,26 @@ public class PostsApiControllerTest {
     @Autowired
     private PostsRepository postsRepository;
 
+    @Autowired
+    private WebApplicationContext context;
+
+    private MockMvc mvc;
+
     @After
     public void tearDown() throws Exception {
         postsRepository.deleteAll();
     }
 
+    @Before
+    public void setup(){
+        mvc = MockMvcBuilders
+                .webAppContextSetup(context)
+                .apply(springSecurity())
+                .build();
+    }
+
     @Test
+    @WithMockUser(roles="USER")
     public void Posts_등록된다() throws Exception {
         //given
         String title = "title";
@@ -63,10 +77,15 @@ public class PostsApiControllerTest {
         String url = "http://localhost:" + port + "/api/v1/posts";
 
         //when
-        ResponseEntity<Long> responseEntity = restTemplate.postForEntity(url,requestDto,Long.class);
+        mvc.perform(post(url)
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(new ObjectMapper().writeValueAsString(requestDto)))
+                .andExpect(status().isOk());
 
-        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(responseEntity.getBody()).isGreaterThan(0L);
+        //ResponseEntity<Long> responseEntity = restTemplate.postForEntity(url,requestDto,Long.class);
+        //assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+        //assertThat(responseEntity.getBody()).isGreaterThan(0L);
+
         //then
         List<Posts> all = postsRepository.findAll();
         assertThat(all.get(0).getTitle()).isEqualTo(title);
@@ -74,6 +93,7 @@ public class PostsApiControllerTest {
     }
 
     @Test
+    @WithMockUser(roles="USER")
     public void Posts_수정된다() throws Exception{
         //given
         Posts savedPosts = postsRepository.save(Posts.builder()
@@ -96,12 +116,16 @@ public class PostsApiControllerTest {
         HttpEntity<PostsUpdateRequestDto> requestEntity = new HttpEntity<>(requestDto);
 
         //when
-        ResponseEntity<Long> responseEntity = restTemplate.exchange(url, HttpMethod.PUT, requestEntity, Long.class);
+        mvc.perform(post(url)
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(new ObjectMapper().writeValueAsString(requestDto)))
+                .andExpect(status().isOk());
 
-        savedPosts = postsRepository.findAll().get(0);
+        //ResponseEntity<Long> responseEntity = restTemplate.exchange(url, HttpMethod.PUT, requestEntity, Long.class);
+
         //then
-        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(responseEntity.getBody()).isGreaterThan(0L);
+        //assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+        //assertThat(responseEntity.getBody()).isGreaterThan(0L);
         List<Posts> all = postsRepository.findAll();
         assertThat(all.get(0).getTitle()).isEqualTo(expectedTitle);
         assertThat(all.get(0).getContent()).isEqualTo(expectedContent);
