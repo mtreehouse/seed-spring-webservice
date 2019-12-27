@@ -33,12 +33,12 @@ deploy:
   - provider: codedeploy
     access_key_id: $AWS_ACCESS_KEY
     secret_access_key: $AWS_SECRET_KEY
-    bucket: spring-webservice-build
+    bucket: spring-webservice-build # S3 버킷
     key: spring-webservice.zip
     bundle_type: zip
     application: spring-webservice
     deployment_group: spring-webservice-group
-    region: ap-northeast-2
+    region: us-east-1
     wait-until-deployed: true
 
 # CI 실행 완료 시 메일로 알람
