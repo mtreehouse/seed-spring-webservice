@@ -8,7 +8,7 @@ REPOSITORY=/home/ec2-user/app/step3
 PROJECT_NAME=spring-webservice
 
 echo "> BUild 파일 복사"
-echo "> cp $REPOSITORY/zip/*.jar $REPOSITORY"
+echo "> cp $REPOSITORY/zip/*.jar $REPOSITORY/"
 
 cp $REPOSITORY/zip*.jar $REPOSITORY/
 
