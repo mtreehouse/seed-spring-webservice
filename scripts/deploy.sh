@@ -11,7 +11,7 @@ CURRENT_PID=$(pgrep -fl springboot-webservice | awk '{print $1}')
 
 echo "Currently Running APP PID : $CURRENT_PID"
 
-if [ 0z "$CURRENT_PID" ]; then
+if [ -z "$CURRENT_PID" ]; then
   echo "> There is No Running App"
 else
     echo "> kill -15 $CURRENT_PID"
