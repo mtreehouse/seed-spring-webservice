@@ -1,5 +1,5 @@
-var index ={
-    init : function () {
+const index = {
+    init() {
         var _this = this;
         $('#btn-save').on('click',function(){
             _this.save();
@@ -13,7 +13,7 @@ var index ={
             _this.delete();
         });
     },
-    save : function(){
+    save(){
         var data = {
             title: $('#title').val(),
             author: $('#author').val(),
@@ -33,7 +33,7 @@ var index ={
             alert(JSON.stringify(error));
         })
     },
-    update : function () {
+    update() {
         var data = {
             title: $('#title').val(),
             content: $('#content').val()
@@ -54,7 +54,7 @@ var index ={
             alert(JSON.stringify(error));
         });
     },
-    delete : function () {
+    delete() {
         var id = $('#id').val();
 
         $.ajax({

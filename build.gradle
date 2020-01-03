@@ -5,9 +5,13 @@ buildscript {
     repositories {
         mavenCentral()
         jcenter()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath "de.solugo.gradle:gradle-nodejs-plugin:0.6.2"
     }
 }
 
@@ -15,6 +19,7 @@ apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
+apply plugin: "de.solugo.gradle.nodejs"
 
 group 'com.jojoldu.book'
 version '1.0.1-SNAPSHOT-'+new Date().format("yyyyMMddHHmmss")
@@ -23,6 +28,9 @@ sourceCompatibility = 1.8
 repositories {
     mavenCentral()
     jcenter()
+    maven {
+        url "https://plugins.gradle.org/m2/"
+    }
 }
 
 dependencies {
@@ -38,7 +46,7 @@ dependencies {
 
     compile('org.springframework.session:spring-session-jdbc')
 
-    compile("org.mariadb.jdbc:mariadb-java-client")
+
     testCompile('org.springframework.boot:spring-boot-starter-test')
     testCompile("org.springframework.security:spring-security-test")
 
